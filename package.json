@@ -1,0 +1,32 @@
+{
+  "name": "asu_faculty_dataviz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "converter.js",
+  "dependencies": {
+    "csv": "^5.1.1",
+    "csvtojson": "^2.0.8",
+    "cytoscape": "^3.4.2",
+    "cytoscape-cola": "^2.3.0",
+    "get-json": "^1.0.1",
+    "jquery": "^3.3.1",
+    "webcola": "^3.3.8"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.11.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel ./cytoEx.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheWiselyBearded/ASU_Faculty_DataViz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheWiselyBearded/ASU_Faculty_DataViz/issues"
+  },
+  "homepage": "https://github.com/TheWiselyBearded/ASU_Faculty_DataViz#readme"
+}

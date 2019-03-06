@@ -1,75 +1,74 @@
-// import cytoscape from 'cytoscape';
-// const cytoscape = require('cytoscape');
+// import {cytoscape} from 'cytoscape';
 // const cytoscape = require('https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.3.3/cytoscape.esm.js');
 
-const csvFilePath='./nodes.csv';
-const csv=require('csvtojson');
-// var jquery = require('jquery');
-// var contextMenus = require('cytoscape-context-menus');
-// contextMenus( cytoscape, jquery ); // register extension
+var cytoscape = require('cytoscape');
 
-var cytoData = $.getJSON(csv()
-.fromFile(csvFilePath)
-.then((jsonObj)=>{
-    console.log(jsonObj); 
-}));
-// var cytoData = $.getJSON("nodes_converted.json")
+window.cytoscape = cytoscape;
 
+var getJSON = require('get-json')
+const csvFilePath = './nodes.csv';
+const csv = require('csvtojson');
+var $ = require("jquery");
+
+var cytoData = require('./nLinks.json'); //(with path)// = JSON.stringify("nodes_convert.json");
+
+console.log("lol",cytoData);
+
+/*var cy = cytoscape({
+    container: document.getElementById('cy'),
+    elements: {
+        nodes: [
+            {data: { id: 'a' }},
+            {data: { id: 'b' }}],
+        edges: [{data: { id: 'ab', source: 'a', target: 'b' }}]
+    },
+    style: [{selector: 'node',
+            style: {
+                'background-color': '#666',
+                'label': 'data(id)'
+            }},{
+            selector: 'edge',
+            style: {
+                'width': 3,
+                'line-color': '#ccc',
+                'target-arrow-color': '#ccc',
+                'target-arrow-shape': 'triangle'
+            }}],
+    layout: {name: 'grid',rows: 1}});
+*/
 var cy = cytoscape({
-    // very commonly used options
-    container: $('#cy'),
+    container: document.getElementById('cy'),
     elements: cytoData,
-    style: [{
-        selector: 'node',
-        style: {
-            'label': 'data(label)',
-            'width': '60px',
-            'height': '60px',
-            'color': 'blue',
-            'background-fit': 'contain',
-            'background-clip': 'none'
+    style: [ // the stylesheet for the graph
+        {
+            selector: 'node',
+            style: {
+                'background-color': 'mapData(group_code, 0, 29, rgb(10,250,0), rgb(245,0,220))',
+                'label': 'data(id)',
+                'width': "mapData(links, 0, 10, 20, 60)",
+                "height": "mapData(links, 0, 10, 20, 60)",
+            }
+        },{
+            selector: 'edge',
+            style: {
+                'width': 2,
+                'line-color': '#ccc',
+                'target-arrow-color': '#ccc',
+                'target-arrow-shape': 'triangle'
+            }
         }
-    }, {
-        selector: 'edge',
-        style: {
-           'text-background-color': 'yellow',
-            'text-background-opacity': 0.4,
-            'width': '6px',
-            'target-arrow-shape': 'triangle',
-            'control-point-step-size': '140px'
-        }
-    }],
-    layout: { name: 'grid' /* , ... */ },
-  
-    // initial viewport state:
-    zoom: 1,
-    pan: { x: 0, y: 0 },
-  
-    // interaction options:
-    minZoom: 1e-50,
-    maxZoom: 1e50,
-    zoomingEnabled: true,
-    userZoomingEnabled: true,
-    panningEnabled: true,
-    userPanningEnabled: true,
-    boxSelectionEnabled: false,
-    selectionType: 'single',
-    touchTapThreshold: 8,
-    desktopTapThreshold: 4,
-    autolock: false,
-    autoungrabify: false,
-    autounselectify: false,
-  
-    // rendering options:
-    headless: false,
-    styleEnabled: true,
-    hideEdgesOnViewport: false,
-    hideLabelsOnViewport: false,
-    textureOnViewport: false,
-    motionBlur: false,
-    motionBlurOpacity: 0.2,
-    wheelSensitivity: 1,
-    pixelRatio: 'auto'
-  });
+    ],
+    layout: {
+        name: 'grid',
+        rows: 1
+    }
+});
 
+let nodes = cy.nodes();
+nodes.forEach( n => {
+    // console.log("Node", n.data());
+    // console.log("Indegrees:\t" + n.indegree(false));
 
+ });
+// console.log(nodes);
+// console.log("lol");
