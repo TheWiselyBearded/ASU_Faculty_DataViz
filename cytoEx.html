@@ -1,10 +1,16 @@
 <html>
 
 <head>
-    <title></title>
+    <title>Cyto ASU Tinnaple</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/font-awesome.css" />
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.3.3/cytoscape.esm.js"></script> -->
-
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 </head>
 
@@ -19,92 +25,25 @@
 </style>
 
 <body>
-    <h1>TEST</h1>
-    <div id="cy"></div>
+    <h1>Cyto ASU Directed Graph</h1>
+    <div id="cy" class="main"></div>
+    <!-- Divider for side panel search bar. -->
+    <div class="tools">
+        <div class="span12">
+            <div id="custom-search-form" class="form-search form-horizontal pull-right">
+                <div class="input-append span12">
+                    <input type="text" id="name" class="search-query" placeholder="Search">            
+                    <button type="button" class="btn btn-success" id="submit">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script src='./cytoscapeEx.js'></script>
-    <script>
-        /*console.log("Fail");
-        $(document).ready(function() {
-            $.getJSON("http://localhost:8000/nodes_convert.json", function (data) {
-                console.log("SUCCESS");
-                console.log(data);
-                var cy = cytoscape({
-                    container: document.getElementById('cy'),
-                    elements: data,
-                    style: [
-                        {
-                            selector: 'node',
-                            style: {
-                                'label': 'data(label)',
-                                'width': '60px',
-                                'height': '60px',
-                                'color': 'blue',
-                                'background-fit': 'contain',
-                                'background-clip': 'none'
-                            }
-                        }, {
-                            selector: 'edge',
-                            style: {
-                               'text-background-color': 'yellow',
-                                'text-background-opacity': 0.4,
-                                'width': '6px',
-                                'target-arrow-shape': 'triangle',
-                                'control-point-step-size': '140px'
-                            }
-                        }
-                    ],
-                    layout: {
-                        name: 'circle'
-                    }
-                });
-            });
-        })*/
-        /*var cy = cytoscape({
-            container: document.getElementById('cy'),
-            elements: {
-                nodes: [
-                    {
-                        data: { id: 'a' }
-                    },
 
-                    {
-                        data: { id: 'b' }
-                    }
-                ],
-                edges: [
-                    {
-                        data: { id: 'ab', source: 'a', target: 'b' }
-                    }
-                ]
-            },
-            style: [ // the stylesheet for the graph
-                {
-                    selector: 'node',
-                    style: {
-                        'background-color': '#666',
-                        'label': 'data(id)'
-                    }
-                },
-
-                {
-                    selector: 'edge',
-                    style: {
-                        'width': 3,
-                        'line-color': '#ccc',
-                        'target-arrow-color': '#ccc',
-                        'target-arrow-shape': 'triangle'
-                    }
-                }
-            ],
-
-            layout: {
-                name: 'grid',
-                rows: 1
-            }
-
-        });*/
-    </script>
 </body>
 
 </html>

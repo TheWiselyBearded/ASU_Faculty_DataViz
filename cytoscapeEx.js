@@ -1,41 +1,9 @@
-// import {cytoscape} from 'cytoscape';
-// const cytoscape = require('https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.3.3/cytoscape.esm.js');
-
 var cytoscape = require('cytoscape');
-
-window.cytoscape = cytoscape;
-
-var getJSON = require('get-json')
-const csvFilePath = './nodes.csv';
-const csv = require('csvtojson');
 var $ = require("jquery");
-
 var cytoData = require('./nLinks.json'); //(with path)// = JSON.stringify("nodes_convert.json");
+window.cytoscape = cytoscape;
+// console.log("lol", cytoData);
 
-console.log("lol",cytoData);
-
-/*var cy = cytoscape({
-    container: document.getElementById('cy'),
-    elements: {
-        nodes: [
-            {data: { id: 'a' }},
-            {data: { id: 'b' }}],
-        edges: [{data: { id: 'ab', source: 'a', target: 'b' }}]
-    },
-    style: [{selector: 'node',
-            style: {
-                'background-color': '#666',
-                'label': 'data(id)'
-            }},{
-            selector: 'edge',
-            style: {
-                'width': 3,
-                'line-color': '#ccc',
-                'target-arrow-color': '#ccc',
-                'target-arrow-shape': 'triangle'
-            }}],
-    layout: {name: 'grid',rows: 1}});
-*/
 var cy = cytoscape({
     container: document.getElementById('cy'),
     elements: cytoData,
@@ -48,7 +16,7 @@ var cy = cytoscape({
                 'width': "mapData(links, 0, 10, 20, 60)",
                 "height": "mapData(links, 0, 10, 20, 60)",
             }
-        },{
+        }, {
             selector: 'edge',
             style: {
                 'width': 2,
@@ -68,7 +36,6 @@ var cy = cytoscape({
 // http://js.cytoscape.org/#layouts
 let options = {
     name: 'circle',
-  
     fit: true, // whether to fit the viewport to the graph
     padding: 30, // the padding on fit
     boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
@@ -83,23 +50,60 @@ let options = {
     animate: false, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: undefined, // easing of animation if enabled
-    animateFilter: function ( node, i ){ return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
+    animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
     ready: undefined, // callback on layoutready
     stop: undefined, // callback on layoutstop
-    transform: function (node, position ){ return position; } // transform a given node position. Useful for changing flow direction in discrete layouts 
-  
-  };
-  
-  cy.layout( options );
-//   layout.start()
-// var layout = cy.layout({ name: 'random' });
+    transform: function (node, position) { return position; } // transform a given node position. Useful for changing flow direction in discrete layouts 
+
+};
+
+cy.layout(options);
 var layout = cy.layout(options);
 layout.run();
+// var layout = cy.layout({ name: 'random' });
+//   layout.start()
 
+// Iterate over each node by copying ref.
 let nodes = cy.nodes();
-nodes.forEach( n => {
+let lastNodeSearch = "";
+
+nodes.forEach(n => {
     // console.log("Node", n.data());
     // console.log("Indegrees:\t" + n.indegree(false));
- });
+});
 
-// console.log(nodes);
+// JQuery Search Feature
+$("#submit").on("click", function () {
+    let name = $("input:text").val();    
+    let nodes = cy.nodes();
+    nodes.forEach(n => {
+        if (n.data().id == name || n.data().id.includes(name)) {    // TODO: Format data to be last name, first name
+            console.log(n.data());
+            console.log("FOUND", n.data().id);
+            var findNode = '[id = ' + '"' + name + '"' + ']'
+            cy.nodes(findNode).style('background-color', 'magenta');
+            // TODO: Store original color of node to revert it per new search.
+            lastNodeSearch = n.data().id;       // Assign reference to past node.
+            // displayNeighbors(n);
+        }
+    })
+
+});
+
+// Press enter to submit once typing.
+$('#name').keydown(function (event) {
+    var keyCode = (event.keyCode ? event.keyCode : event.which);
+    if (keyCode == '13') {
+        $('#submit').trigger('click');
+    }
+});
+
+// Allow auto-comlete of input.
+// function complete(){
+//     let nodes = cy.nodes();
+//     $( "#name" ).autocomplete({
+//          source: nodes
+//       });   
+// }
+
+// complete();
