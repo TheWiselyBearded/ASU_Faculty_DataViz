@@ -85,6 +85,11 @@ $("#submit").on("click", function () {
             // TODO: Store original color of node to revert it per new search.
             lastNodeSearch = n.data().id;       // Assign reference to past node.
             // displayNeighbors(n);
+        } else if (n.data().group == name) {    // Matching group code.            
+            console.log("FOUND", n.data().id);
+            var findNode = '[id = ' + '"' + name + '"' + ']'
+            cy.nodes(findNode).style('background-color', 'magenta');
+            //TODO: Update edge connections and coloring references.            
         }
     })
 

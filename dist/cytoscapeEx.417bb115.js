@@ -69586,6 +69586,11 @@ $("#submit").on("click", function () {
 
       lastNodeSearch = n.data().id; // Assign reference to past node.
       // displayNeighbors(n);
+    } else if (n.data().group == name) {
+      // Matching group code.            
+      console.log("FOUND", n.data().id);
+      var findNode = '[id = ' + '"' + name + '"' + ']';
+      cy.nodes(findNode).style('background-color', 'magenta'); //TODO: Update edge connections and coloring references.            
     }
   });
 }); // Press enter to submit once typing.
@@ -69631,7 +69636,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49154" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49380" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
