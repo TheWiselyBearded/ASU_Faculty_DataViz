@@ -69568,10 +69568,28 @@ layout.run(); // var layout = cy.layout({ name: 'random' });
 // Iterate over each node by copying ref.
 
 var nodes = cy.nodes();
-var lastNodeSearch = "";
+var lastNodeSearch = 0;
+var lastNodeColor = 0;
 nodes.forEach(function (n) {// console.log("Node", n.data());
   // console.log("Indegrees:\t" + n.indegree(false));
-}); // JQuery Search Feature
+});
+var priorNode = 0;
+cy.$('node').on('grab', function (e) {
+  console.log("E", e);
+
+  if (priorNode != 0) {
+    priorNode.target.connectedEdges().style({
+      'line-color': '#ccc'
+    });
+  }
+
+  var ele = e.target;
+  ele.connectedEdges().style({
+    'line-color': 'red'
+  });
+  priorNode = e;
+}); // Tinapple,David A
+// JQuery Search Feature
 
 $("#submit").on("click", function () {
   var name = $("input:text").val();
@@ -69579,16 +69597,24 @@ $("#submit").on("click", function () {
   nodes.forEach(function (n) {
     if (n.data().id == name || n.data().id.includes(name)) {
       // TODO: Format data to be last name, first name
-      console.log(n.data());
-      console.log("FOUND", n.data().id);
+      // console.log(n.data());
+      // console.log("FOUND", n.data().id);
+      // console.log("N", cy.nodes(findNode).connectedEdges());            
       var findNode = '[id = ' + '"' + name + '"' + ']';
-      cy.nodes(findNode).style('background-color', 'magenta'); // TODO: Store original color of node to revert it per new search.
+      lastNodeColor = cy.nodes(findNode).style('background-color');
+      console.log("col", lastNodeColor);
+      cy.nodes(findNode).style('background-color', 'magenta');
+      cy.nodes(findNode).connectedEdges().style({
+        'line-color': 'red'
+      });
 
-      lastNodeSearch = n.data().id; // Assign reference to past node.
-      // displayNeighbors(n);
+      if (lastNodeColor != 0) {// cy.nodes(lastNodeSearch).style('background-color', lastNodeColor)       
+      }
+
+      lastNodeSearch = findNode; // Assign reference to past node.
     } else if (n.data().group == name) {
       // Matching group code.            
-      console.log("FOUND", n.data().id);
+      // console.log("FOUND", n.data().id);
       var findNode = '[id = ' + '"' + name + '"' + ']';
       cy.nodes(findNode).style('background-color', 'magenta'); //TODO: Update edge connections and coloring references.            
     }
@@ -69636,7 +69662,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49380" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64829" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

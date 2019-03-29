@@ -65,12 +65,27 @@ layout.run();
 
 // Iterate over each node by copying ref.
 let nodes = cy.nodes();
-let lastNodeSearch = "";
+let lastNodeSearch = 0;
+let lastNodeColor = 0;
 
 nodes.forEach(n => {
     // console.log("Node", n.data());
     // console.log("Indegrees:\t" + n.indegree(false));
 });
+
+let priorNode = 0;
+
+cy.$('node').on('grab', function (e) {
+    console.log("E",e);
+    if (priorNode != 0) {
+        priorNode.target.connectedEdges().style({ 'line-color': '#ccc' });
+    }
+    var ele = e.target;
+    ele.connectedEdges().style({ 'line-color': 'red' });
+    priorNode = e;
+});
+
+// Tinapple,David A
 
 // JQuery Search Feature
 $("#submit").on("click", function () {
@@ -78,15 +93,20 @@ $("#submit").on("click", function () {
     let nodes = cy.nodes();
     nodes.forEach(n => {
         if (n.data().id == name || n.data().id.includes(name)) {    // TODO: Format data to be last name, first name
-            console.log(n.data());
-            console.log("FOUND", n.data().id);
+            // console.log(n.data());
+            // console.log("FOUND", n.data().id);
+            // console.log("N", cy.nodes(findNode).connectedEdges());            
             var findNode = '[id = ' + '"' + name + '"' + ']'
-            cy.nodes(findNode).style('background-color', 'magenta');
-            // TODO: Store original color of node to revert it per new search.
-            lastNodeSearch = n.data().id;       // Assign reference to past node.
-            // displayNeighbors(n);
+            lastNodeColor = cy.nodes(findNode).style('background-color');
+            console.log("col",lastNodeColor);
+            cy.nodes(findNode).style('background-color', 'magenta');  
+            cy.nodes(findNode).connectedEdges().style({ 'line-color': 'red' });
+            if (lastNodeColor != 0) {
+                // cy.nodes(lastNodeSearch).style('background-color', lastNodeColor)       
+            }   
+            lastNodeSearch = findNode;       // Assign reference to past node.
         } else if (n.data().group == name) {    // Matching group code.            
-            console.log("FOUND", n.data().id);
+            // console.log("FOUND", n.data().id);
             var findNode = '[id = ' + '"' + name + '"' + ']'
             cy.nodes(findNode).style('background-color', 'magenta');
             //TODO: Update edge connections and coloring references.            
