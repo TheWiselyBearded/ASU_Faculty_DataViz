@@ -8,6 +8,7 @@
     "csvtojson": "^2.0.8",
     "cytoscape": "^3.4.2",
     "cytoscape-cola": "^2.3.0",
+    "cytoscape-euler": "^1.2.1",
     "get-json": "^1.0.1",
     "jquery": "^3.3.1",
     "jquery-autocomplete": "^1.2.8",
